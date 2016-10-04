@@ -1,9 +1,8 @@
 # matrix_extend
 
-TODO: Write a description here
+Matrix implementation in crystal-lang.
 
 ## Installation
-
 
 Add this to your application's `shard.yml`:
 
@@ -16,17 +15,23 @@ dependencies:
 
 ## Usage
 
+Don't hesitate to read the specs.
+Every methods are described there.
 
 ```crystal
 require "matrix_extend"
+include MatrixExtend
+
+m1 = Matrix(Int32).new(3, 2, 1)
+m2 = Matrix(Int32).new(2, 3, 0)
+# => matrix with 3 lines, 2 columns, filled with 1
+m2 * m1
 ```
 
 
-TODO: Write usage instructions here
-
 ## Development
 
-TODO: Write development instructions here
+No particular development directives.
 
 ## Contributing
 
