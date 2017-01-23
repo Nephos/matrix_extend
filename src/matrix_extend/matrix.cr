@@ -19,6 +19,16 @@ class MatrixExtend::Matrix(T)
     self.new(data.size, data.first.size, data)
   end
 
+  def ==(matrix : Matrix)
+    return false if self.lines != matrix.lines || self.columns != matrix.columns
+    self.each_line do |line, x|
+      line.each_with_index do |value, y|
+        return false if matrix[x][y] != value
+      end
+    end
+    true
+  end
+
   def to_s
     "Matrix(#{to_a})"
   end
@@ -54,14 +64,14 @@ class MatrixExtend::Matrix(T)
     Matrix(T).new(self.lines, right.columns).tap do |m|
       m.lines.times do |y|
         m.columns.times do |x|
-          m[y][x] = self.each_line[y].zip(right.each_column[x]).map {|l, c| l * c}.sum
+          m[y][x] = self.each_line[y].zip(right.each_column[x]).map { |l, c| l * c }.sum
         end
       end
     end
   end
 
   def *(right : Number::Primitive) : typeof(self)
-    clone.tap {|m| m.flatten_map! { |cell| cell * right } }
+    clone.tap { |m| m.flatten_map! { |cell| cell * right } }
   end
 
   def flatten : Array(T)
@@ -75,7 +85,7 @@ class MatrixExtend::Matrix(T)
   end
 
   def transpose : typeof(self)
-    #typeof(self).new(@columns, @lines).tap do |m|
+    # typeof(self).new(@columns, @lines).tap do |m|
     clone.tap do |m|
       m.data = m.data.transpose
       m.lines, m.columns = m.columns, m.lines
@@ -91,7 +101,7 @@ class MatrixExtend::Matrix(T)
   end
 
   def each_line(&b)
-    @data.each { |l| yield l }
+    @data.each_with_index { |l, i| yield l, i }
     self
   end
 
@@ -100,7 +110,7 @@ class MatrixExtend::Matrix(T)
   end
 
   def each_column(&b)
-    @data.transpose.each { |c| yield c }
+    @data.transpose.each_with_index { |c, i| yield c, i }
     self
   end
 

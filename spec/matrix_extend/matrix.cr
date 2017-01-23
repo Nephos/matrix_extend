@@ -5,6 +5,14 @@ describe Matrix do
     m.columns.should eq 3
   end
 
+  it "equal" do
+    m1 = Matrix(Int32).from [[1, 2], [2, 3]]
+    m2 = Matrix(Int32).from [[1, 2], [2, 3]]
+    m3 = Matrix(Int32).from [[1, 2], [2, 1]]
+    (m1 == m2).should be_true
+    (m1 == m3).should be_false
+  end
+
   it "identity" do
     m = Matrix(Float64).identity 2, 3
     m.lines.should eq 2
@@ -79,14 +87,14 @@ describe Matrix do
   it "each_line" do
     m = Matrix(Float64).identity 2, 3
     i = 0
-    m.each_line {|l| l.size.should eq 3; i += 1}
+    m.each_line { |l| l.size.should eq 3; i += 1 }
     i.should eq 2
   end
 
   it "each_column" do
     m = Matrix(Float64).identity 2, 3
     i = 0
-    m.each_column {|l| l.size.should eq 2; i += 1}
+    m.each_column { |l| l.size.should eq 2; i += 1 }
     i.should eq 3
   end
 
@@ -97,7 +105,7 @@ describe Matrix do
 
   it "flatten_map" do
     m = Matrix(Float64).new 2, 2, [[1.0, 2.0], [3.0, 4.0]]
-    m.flatten_map!{|e| e * 2.0 }.flatten.should eq [2.0, 4.0, 6.0, 8.0]
+    m.flatten_map! { |e| e * 2.0 }.flatten.should eq [2.0, 4.0, 6.0, 8.0]
     m.flatten.should eq [2.0, 4.0, 6.0, 8.0]
   end
 end
